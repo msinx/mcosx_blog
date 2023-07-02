@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.mcosx.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="今天在写一个进程守护shell文件时，发现判断字符串为空时的一个坑，先记录下来。在watch函数中，用 if [ ! -z ${pid} ];判断是正常的。当把watch函数写成以下时(第一个程序正在运行，第二个未运行)， 123456789101112131415161718192021222324252627282930313233function watch() &amp;#123;    pid&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell守护进程之踩坑记录">
+<meta property="og:url" content="https://blog.mcosx.cn/post/shell-daemon-record.html">
+<meta property="og:site_name" content="Mcosx&#39;s blog">
+<meta property="og:description" content="今天在写一个进程守护shell文件时，发现判断字符串为空时的一个坑，先记录下来。在watch函数中，用 if [ ! -z ${pid} ];判断是正常的。当把watch函数写成以下时(第一个程序正在运行，第二个未运行)， 123456789101112131415161718192021222324252627282930313233function watch() &amp;#123;    pid&#x3D;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-27T14:58:23.000Z">
+<meta property="article:modified_time" content="2017-07-27T14:58:23.000Z">
+<meta property="article:author" content="Mcosx">
+<meta property="article:tag" content="shell">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.mcosx.cn/post/shell-daemon-record.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>shell守护进程之踩坑记录 | Mcosx's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71628927-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-71628927-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mcosx's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">36</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">41</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/shell-daemon-record.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          shell守护进程之踩坑记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-27 22:58:23" itemprop="dateCreated datePublished" datetime="2017-07-27T22:58:23+08:00">2017-07-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/shell-daemon-record.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/shell-daemon-record.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天在写一个进程守护shell文件时，发现判断字符串为空时的一个坑，先记录下来。<br>在watch函数中，用 if [ ! -z ${pid} ];判断是正常的。<br>当把watch函数写成以下时(第一个程序正在运行，第二个未运行)，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">function watch() &#123;</span><br><span class="line">    pid=&quot;$(ps aux|grep -v grep|grep &quot;$&#123;1&#125;&quot; |awk &#x27;&#123;print $2&#125;&#x27;|head -n 1)&quot;</span><br><span class="line">    date=&quot;[$(date &#x27;+%Y%m%d %H:%M:%S&#x27;)]&quot;</span><br><span class="line">    echo &quot;1:$&#123;1&#125;&quot;</span><br><span class="line">    echo &quot;abc:$(ps aux|grep -v grep|grep &quot;$&#123;1&#125;&quot;)&quot;</span><br><span class="line">    echo &quot;pid:$&#123;pid&#125;&quot;</span><br><span class="line"></span><br><span class="line">    if [ $&#123;2&#125; == &quot;daemon&quot; ]; then</span><br><span class="line">        if [ -n $&#123;pid&#125; ]; then</span><br><span class="line">            echo &quot;nnnnnnnnnnnnnnnnnnnnnnnn-n&quot;</span><br><span class="line">        fi</span><br><span class="line">        if [ -z $&#123;pid&#125; ]; then</span><br><span class="line">            echo &quot;zzzzzzzzzzzzzzzzzzzzzzzz-z&quot;</span><br><span class="line">        fi</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            echo &quot;$&#123;date&#125;$&#123;1&#125;(pid:$&#123;pid&#125;) is running&quot;</span><br><span class="line">        else</span><br><span class="line">            nohup $&#123;1&#125; 1&gt;$&#123;3&#125; 2&gt;&amp;1 &amp;</span><br><span class="line">            echo &quot;$&#123;date&#125;启动进程$&#123;1&#125;(pid:&quot;$!&quot;)成功&quot;</span><br><span class="line">        fi</span><br><span class="line">    elif [ $&#123;2&#125; == &quot;restart&quot; ]; then</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            kill -9 $&#123;pid&#125;</span><br><span class="line">        fi</span><br><span class="line">        nohup $&#123;1&#125; 1&gt;$&#123;3&#125; 2&gt;&amp;1 &amp;</span><br><span class="line">        echo &quot;$&#123;date&#125;重启进程$&#123;1&#125;(pid:&quot;$!&quot;)成功&quot;</span><br><span class="line">    elif [ $&#123;2&#125; == &quot;kill&quot; ]; then</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            kill -9 $&#123;pid&#125;</span><br><span class="line">        fi</span><br><span class="line">        echo &quot;$&#123;date&#125;结束进程$&#123;1&#125;(pid:$&#123;pid&#125;)成功&quot;</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>输出为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1:/usr/local/bin/python3 /search/offline/PPCityMoniter/ppcity_scripts/main.py -T web</span><br><span class="line">abc:mali      7537  0.0  0.2 227712 22356 pts/3    S    18:36   0:00 /usr/local/bin/python3 /search/offline/PPCityMoniter/ppcity_scripts/main.py -T web</span><br><span class="line">mali      7567  0.6  0.2 305592 22468 pts/3    Sl   18:36   0:37 /usr/local/bin/python3 /search/offline/PPCityMoniter/ppcity_scripts/main.py -T web</span><br><span class="line">pid:7537</span><br><span class="line">nnnnnnnnnnnnnnnnnnnnnnnn-n</span><br><span class="line">[20170720 20:15:51]/usr/local/bin/python3 /search/offline/PPCityMoniter/ppcity_scripts/main.py -T web(pid:7537) is running</span><br><span class="line">1:sh /search/offline/PPCityMoniter/ppcity_scripts/utils/pull_logs.sh</span><br><span class="line">abc:</span><br><span class="line">pid:</span><br><span class="line">nnnnnnnnnnnnnnnnnnnnnnnn-n</span><br><span class="line">zzzzzzzzzzzzzzzzzzzzzzzz-z</span><br><span class="line">[20170720 20:15:51]启动进程sh /search/offline/PPCityMoniter/ppcity_scripts/utils/pull_logs.sh(pid:13848)成功</span><br></pre></td></tr></table></figure>
+<p>也就是说当pid为”空”时，程序既进入了<code> if [ -n $&#123;pid&#125; ];</code>，也进入了<code>if [ -z $&#123;pid&#125; ];</code>,有点不懂了，-n代表非空字符串，-z代表空字符串</p>
+<p>最后可以正常执行的脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line">set -o errexit</span><br><span class="line">set -o nounset</span><br><span class="line"></span><br><span class="line">cur_file=$(basename $0)</span><br><span class="line">cur_dir=$(cd $(dirname $0) &amp;&amp; pwd -P)    # 绝对目录地址</span><br><span class="line">cur_full_file=&quot;$&#123;cur_dir&#125;/$&#123;cur_file&#125;&quot;</span><br><span class="line">cd $&#123;cur_dir&#125;</span><br><span class="line">run_dir=&quot;$(pwd)&quot;</span><br><span class="line"></span><br><span class="line">readonly p_file=&quot;../conf/p.list&quot;</span><br><span class="line"></span><br><span class="line">p_list=()</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">读文件</span></span><br><span class="line">function readfile() &#123;</span><br><span class="line">    if [ -f $&#123;1&#125; ]; then</span><br><span class="line">        declare -i x=0</span><br><span class="line">        while read -r line;</span><br><span class="line">        do</span><br><span class="line">            if [ &quot;$&#123;line:0:1&#125;&quot; == &quot;#&quot; ]; then</span><br><span class="line">                continue</span><br><span class="line">            elif [ -z &quot;$&#123;line&#125;&quot; ]; then</span><br><span class="line">                continue</span><br><span class="line">            else</span><br><span class="line">                p_list[$&#123;x&#125;]=$&#123;line&#125;;</span><br><span class="line">                x+=1</span><br><span class="line">            fi</span><br><span class="line">        done &lt; $&#123;1&#125;</span><br><span class="line">        return 0</span><br><span class="line">    else</span><br><span class="line">        echo $&#123;1&#125;&quot;不存在&quot; 1&gt;&gt;&quot;$&#123;3:-/dev/null&#125;&quot; 2&gt;&amp;1</span><br><span class="line">        return 1</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">传入3个参数:监控程序(p_list中项),命令参数,日志名</span></span><br><span class="line">function watch() &#123;</span><br><span class="line">    pid=&quot;$(ps aux|grep -v grep|grep &quot;$&#123;1&#125;&quot; |awk &#x27;&#123;print $2&#125;&#x27;|head -n 1)&quot;</span><br><span class="line">    date=&quot;[$(date &#x27;+%Y%m%d %H:%M:%S&#x27;)]&quot;</span><br><span class="line"></span><br><span class="line">    if [ $&#123;2&#125; == &quot;daemon&quot; ]; then</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            echo &quot;$&#123;date&#125;$&#123;1&#125;(pid:$&#123;pid&#125;) is running&quot;</span><br><span class="line">        else</span><br><span class="line">            (nohup $&#123;1&#125; &gt;&gt;$&#123;3&#125; 2&gt;&amp;1) &amp;</span><br><span class="line">            echo &quot;$&#123;date&#125;启动进程$&#123;1&#125;(pid:&quot;$!&quot;)成功&quot;</span><br><span class="line">        fi</span><br><span class="line">    elif [ $&#123;2&#125; == &quot;restart&quot; ]; then</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            kill -9 $&#123;pid&#125;</span><br><span class="line">        fi</span><br><span class="line">        (nohup $&#123;1&#125; &gt;&gt;$&#123;3&#125; 2&gt;&amp;1) &amp;</span><br><span class="line">        echo &quot;$&#123;date&#125;重启进程$&#123;1&#125;(pid:&quot;$!&quot;)成功&quot;</span><br><span class="line">    elif [ $&#123;2&#125; == &quot;kill&quot; ]; then</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            kill -9 $&#123;pid&#125;</span><br><span class="line">        fi</span><br><span class="line">        echo &quot;$&#123;date&#125;结束进程$&#123;1&#125;(pid:$&#123;pid&#125;)成功&quot;</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">第1个参数是命令参数(<span class="string">&quot;daemon,restart,kill&quot;</span>),第2个参数是进程启动的日志输出文件名</span></span><br><span class="line">function daemon() &#123;</span><br><span class="line">    type nohup &gt;/dev/null 2&gt;&amp;1 || &#123; echo &gt;&amp;2 &quot;缺少nohup&quot; 1&gt;&quot;$&#123;3:-/dev/null&#125;&quot; 2&gt;&amp;1; return -1; &#125;</span><br><span class="line">    declare -i x=0</span><br><span class="line">    while(( x &lt; $&#123;#p_list[*]&#125; ))</span><br><span class="line">    do</span><br><span class="line">        watch &quot;$&#123;p_list[$&#123;x&#125;]&#125;&quot; &quot;$&#123;1&#125;&quot; &quot;$&#123;2&#125;&quot;</span><br><span class="line">        x+=1</span><br><span class="line">    done</span><br><span class="line">    return 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readfile $&#123;p_file&#125;</span><br><span class="line">daemon &quot;$&#123;1:-daemon&#125;&quot; &quot;$&#123;2:-$&#123;cur_full_file&#125;.log&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/unix/unix-basic-operators.htm">Unix - Shell Basic Operators</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/shell/" rel="tag"># shell</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/nan-and-inf-in-cpp.html" rel="prev" title="C++中的nan和inf">
+      <i class="fa fa-chevron-left"></i> C++中的nan和inf
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/ubuntu-install-l2tp.html" rel="next" title="ubuntu安装L2TP">
+      ubuntu安装L2TP <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mcosx</p>
+  <div class="site-description" itemprop="description">记录&&学习</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mcosx</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://l-blog-1.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.mcosx.cn/post/shell-daemon-record.html";
+    this.page.identifier = "post/shell-daemon-record.html";
+    this.page.title = "shell守护进程之踩坑记录";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://l-blog-1.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

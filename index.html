@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.mcosx.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录&amp;&amp;学习">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mcosx&#39;s blog">
+<meta property="og:url" content="https://blog.mcosx.cn/index.html">
+<meta property="og:site_name" content="Mcosx&#39;s blog">
+<meta property="og:description" content="记录&amp;&amp;学习">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Mcosx">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.mcosx.cn/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Mcosx's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71628927-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-71628927-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mcosx's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">36</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">41</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/singapore.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/singapore.html" class="post-title-link" itemprop="url">在新加坡工作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-05-05 15:44:42" itemprop="dateCreated datePublished" datetime="2021-05-05T15:44:42+08:00">2021-05-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/life/" itemprop="url" rel="index"><span itemprop="name">life</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/singapore.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/singapore.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          本文被加密了, 请输入密码查看.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/post/singapore.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/gdb-tips.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/gdb-tips.html" class="post-title-link" itemprop="url">gdb调试的一些技巧</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-09-01 09:49:07 / Modified: 16:17:07" itemprop="dateCreated datePublished" datetime="2019-09-01T09:49:07+08:00">2019-09-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/gdb-tips.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/gdb-tips.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="列出函数名"><a href="#列出函数名" class="headerlink" title="列出函数名"></a>列出函数名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">info <span class="built_in">functions</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 支持正则</span></span><br><span class="line">info <span class="built_in">functions</span> &lt;regex&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="进入函数"><a href="#进入函数" class="headerlink" title="进入函数"></a>进入函数</h3><p>使用gdb调试遇到函数时，使用step命令（缩写为s）可以进入函数（函数必须有调试信息,没有调试信息可以执行<code>set step-mode on</code>）<br>可以使用next命令（缩写为n）不进入函数，gdb会等函数执行完<br>当单步调试一个函数时，如果不想继续跟踪下去了，可以有两种方式退出:(1)<code>finish</code>,函数会执行完并打印返回值，然后等待输入(2)<code>return</code>,函数不会继续执行下面的语句，而是直接返回,也可以用<code>return &lt;expression&gt;</code>指定返回值</p>
+<p>参考:<a target="_blank" rel="noopener" href="https://sourceware.org/gdb/onlinedocs/gdb/Continuing-and-Stepping.html">gdb手册</a></p>
+<h3 id="直接执行函数"><a href="#直接执行函数" class="headerlink" title="直接执行函数"></a>直接执行函数</h3><p>使用gdb调试程序时，可以使用“call”或“print”命令直接调用函数执行</p>
+<p>参考:<a target="_blank" rel="noopener" href="https://sourceware.org/gdb/onlinedocs/gdb/Calling.html">gdb手册</a></p>
+<h3 id="打印函数堆栈帧信息"><a href="#打印函数堆栈帧信息" class="headerlink" title="打印函数堆栈帧信息"></a>打印函数堆栈帧信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">i frame</span><br><span class="line"></span><br><span class="line">i registers</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看func函数汇编代码</span></span><br><span class="line">disassemble &lt;func&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出尾调用的相关信息(设置`debug entry-values`选项为非0值)</span></span><br><span class="line"><span class="comment"># 尾调用gdb(https://sourceware.org/gdb/onlinedocs/gdb/Tail-Call-Frames.html)</span></span><br><span class="line"><span class="built_in">set</span> debug entry-values 1</span><br></pre></td></tr></table></figure>
+
+<p>参考:<a target="_blank" rel="noopener" href="https://sourceware.org/gdb/onlinedocs/gdb/Frame-Info.html">gdb手册</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/post/gdb-tips.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/cpp-memory-allocation.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/cpp-memory-allocation.html" class="post-title-link" itemprop="url">C++内存分配</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-09-04 16:01:44" itemprop="dateCreated datePublished" datetime="2017-09-04T16:01:44+08:00">2017-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cpp/" itemprop="url" rel="index"><span itemprop="name">cpp</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/cpp-memory-allocation.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/cpp-memory-allocation.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
+<p>ubuntu 16.04 64<br>g++ 6.3</p>
+</blockquote>
+<h2 id="实例文件"><a href="#实例文件" class="headerlink" title="实例文件"></a>实例文件</h2><p>tes.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#include &lt;iostream&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> global_a; <span class="comment">//.bss</span></span><br><span class="line"><span class="type">int</span> global_b = <span class="number">0</span>; <span class="comment">//.bss</span></span><br><span class="line"><span class="type">int</span> global_c = <span class="number">3</span>; <span class="comment">//.data</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> static_global_a; <span class="comment">//.bss</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> static_global_b = <span class="number">3</span>; <span class="comment">//.data</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> const_global_a = <span class="number">0</span>; <span class="comment">//.rodata</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> const_global_b = <span class="number">1</span>; <span class="comment">//.rodata</span></span><br><span class="line"><span class="type">const</span> <span class="type">static</span> <span class="type">int</span> const_static_global_a = <span class="number">0</span>; <span class="comment">//.rodata</span></span><br><span class="line"><span class="type">const</span> <span class="type">static</span> <span class="type">int</span> const_static_global_b = <span class="number">1</span>; <span class="comment">//.rodata</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> local_static_a; <span class="comment">//.bss</span></span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> local_static_b = <span class="number">3</span>; <span class="comment">//.data</span></span><br><span class="line">	<span class="type">const</span> <span class="type">static</span> <span class="type">int</span> local_const_static_a = <span class="number">0</span>; <span class="comment">//.rodata</span></span><br><span class="line">	<span class="type">const</span> <span class="type">static</span> <span class="type">int</span> local_const_static_b = <span class="number">1</span>; <span class="comment">//.rodata</span></span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> local_const_a = <span class="number">0</span>;</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> local_const_b = <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> local_a;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/post/cpp-memory-allocation.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/ubuntu-install-l2tp.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/ubuntu-install-l2tp.html" class="post-title-link" itemprop="url">ubuntu安装L2TP</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2017-08-11 22:52:48 / Modified: 22:55:00" itemprop="dateCreated datePublished" datetime="2017-08-11T22:52:48+08:00">2017-08-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/ubuntu-install-l2tp.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/ubuntu-install-l2tp.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
+<p>ubuntu 16.04 64</p>
+</blockquote>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>有ppa源<a target="_blank" rel="noopener" href="https://launchpad.net/~nm-l2tp/+archive/ubuntu/network-manager-l2tp">https://launchpad.net/~nm-l2tp/+archive/ubuntu/network-manager-l2tp</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:nm-l2tp/network-manager-l2tp  </span><br><span class="line">sudo apt-get update  </span><br><span class="line">sudo apt-get install network-manager-l2tp  </span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/post/ubuntu-install-l2tp.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/shell-daemon-record.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/shell-daemon-record.html" class="post-title-link" itemprop="url">shell守护进程之踩坑记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-27 22:58:23" itemprop="dateCreated datePublished" datetime="2017-07-27T22:58:23+08:00">2017-07-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/shell-daemon-record.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/shell-daemon-record.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天在写一个进程守护shell文件时，发现判断字符串为空时的一个坑，先记录下来。<br>在watch函数中，用 if [ ! -z ${pid} ];判断是正常的。<br>当把watch函数写成以下时(第一个程序正在运行，第二个未运行)，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">function watch() &#123;</span><br><span class="line">    pid=&quot;$(ps aux|grep -v grep|grep &quot;$&#123;1&#125;&quot; |awk &#x27;&#123;print $2&#125;&#x27;|head -n 1)&quot;</span><br><span class="line">    date=&quot;[$(date &#x27;+%Y%m%d %H:%M:%S&#x27;)]&quot;</span><br><span class="line">    echo &quot;1:$&#123;1&#125;&quot;</span><br><span class="line">    echo &quot;abc:$(ps aux|grep -v grep|grep &quot;$&#123;1&#125;&quot;)&quot;</span><br><span class="line">    echo &quot;pid:$&#123;pid&#125;&quot;</span><br><span class="line"></span><br><span class="line">    if [ $&#123;2&#125; == &quot;daemon&quot; ]; then</span><br><span class="line">        if [ -n $&#123;pid&#125; ]; then</span><br><span class="line">            echo &quot;nnnnnnnnnnnnnnnnnnnnnnnn-n&quot;</span><br><span class="line">        fi</span><br><span class="line">        if [ -z $&#123;pid&#125; ]; then</span><br><span class="line">            echo &quot;zzzzzzzzzzzzzzzzzzzzzzzz-z&quot;</span><br><span class="line">        fi</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            echo &quot;$&#123;date&#125;$&#123;1&#125;(pid:$&#123;pid&#125;) is running&quot;</span><br><span class="line">        else</span><br><span class="line">            nohup $&#123;1&#125; 1&gt;$&#123;3&#125; 2&gt;&amp;1 &amp;</span><br><span class="line">            echo &quot;$&#123;date&#125;启动进程$&#123;1&#125;(pid:&quot;$!&quot;)成功&quot;</span><br><span class="line">        fi</span><br><span class="line">    elif [ $&#123;2&#125; == &quot;restart&quot; ]; then</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            kill -9 $&#123;pid&#125;</span><br><span class="line">        fi</span><br><span class="line">        nohup $&#123;1&#125; 1&gt;$&#123;3&#125; 2&gt;&amp;1 &amp;</span><br><span class="line">        echo &quot;$&#123;date&#125;重启进程$&#123;1&#125;(pid:&quot;$!&quot;)成功&quot;</span><br><span class="line">    elif [ $&#123;2&#125; == &quot;kill&quot; ]; then</span><br><span class="line">        if [ ! -z $&#123;pid&#125; ]; then</span><br><span class="line">            kill -9 $&#123;pid&#125;</span><br><span class="line">        fi</span><br><span class="line">        echo &quot;$&#123;date&#125;结束进程$&#123;1&#125;(pid:$&#123;pid&#125;)成功&quot;</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/post/shell-daemon-record.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/nan-and-inf-in-cpp.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/nan-and-inf-in-cpp.html" class="post-title-link" itemprop="url">C++中的nan和inf</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2017-07-17 00:37:10 / Modified: 00:38:10" itemprop="dateCreated datePublished" datetime="2017-07-17T00:37:10+08:00">2017-07-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cpp/" itemprop="url" rel="index"><span itemprop="name">cpp</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/nan-and-inf-in-cpp.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/nan-and-inf-in-cpp.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="nan和inf的产生"><a href="#nan和inf的产生" class="headerlink" title="nan和inf的产生"></a>nan和inf的产生</h2><p>nan 代表不是一个数字(not a number), inf代表无穷大(infinity)</p>
+<p>IEEE 754 的一些规定：</p>
+<h3 id="‘Invalid-Operation’"><a href="#‘Invalid-Operation’" class="headerlink" title="‘Invalid Operation’"></a>‘Invalid Operation’</h3><p>This exception is raised if the given operands are invalid for the operation to be performed. Examples are (see IEEE 754, section 7):</p>
+<p>Addition or subtraction: &infin; - &infin;. (But &infin; + &infin; = &infin;).<br>Multiplication: 0 &middot; &infin;.<br>Division: 0/0 or &infin;/&infin;.<br>Remainder: x REM y, where y is zero or x is infinite.<br>Square root if the operand is less than zero. More generally, any mathematical function evaluated outside its domain produces this exception.<br>Conversion of a floating-point number to an integer or decimal string, when the number cannot be represented in the target format (due to overflow, infinity, or NaN).<br>Conversion of an unrecognizable input string.<br>Comparison via predicates involving &lt; or &gt;, when one or other of the operands is NaN. You can prevent this exception by using the unordered comparison functions instead; see FP Comparison Functions.<br>If the exception does not trap, the result of the operation is NaN.</p>
+<h3 id="‘Division-by-Zero’"><a href="#‘Division-by-Zero’" class="headerlink" title="‘Division by Zero’"></a>‘Division by Zero’</h3><p>This exception is raised when a finite nonzero number is divided by zero. If no trap occurs the result is either +&infin; or -&infin;, depending on the signs of the operands.</p>
+<h3 id="‘Overflow’"><a href="#‘Overflow’" class="headerlink" title="‘Overflow’"></a>‘Overflow’</h3><p>This exception is raised whenever the result cannot be represented as a finite value in the precision format of the destination. If no trap occurs the result depends on the sign of the intermediate result and the current rounding mode (IEEE 754, section 7.3):</p>
+<p>Round to nearest carries all overflows to &infin; with the sign of the intermediate result.<br>Round toward 0 carries all overflows to the largest representable finite number with the sign of the intermediate result.<br>Round toward -&infin; carries positive overflows to the largest representable finite number and negative overflows to -&infin;.<br>Round toward &infin; carries negative overflows to the most negative representable finite number and positive overflows to &infin;.<br>Whenever the overflow exception is raised, the inexact exception is also raised.</p>
+<h3 id="‘Underflow’"><a href="#‘Underflow’" class="headerlink" title="‘Underflow’"></a>‘Underflow’</h3><p>The underflow exception is raised when an intermediate result is too small to be calculated accurately, or if the operation’s result rounded to the destination precision is too small to be normalized.</p>
+<p>When no trap is installed for the underflow exception, underflow is signaled (via the underflow flag) only when both tininess and loss of accuracy have been detected. If no trap handler is installed the operation continues with an imprecise small value, or zero if the destination precision cannot hold the small exact result.</p>
+<h3 id="‘Inexact’"><a href="#‘Inexact’" class="headerlink" title="‘Inexact’"></a>‘Inexact’</h3><p>This exception is signalled if a rounded result is not exact (such as when calculating the square root of two) or a result overflows without an overflow trap.</p>
+<h2 id="nan和inf的运算"><a href="#nan和inf的运算" class="headerlink" title="nan和inf的运算"></a>nan和inf的运算</h2><p>n + inf = inf;    // 任意数 + 无穷大 = 无穷大<br>n / inf = 0;        // 任意数 / 无穷大 = 0<br>atan(inf) = π     // 对无穷大取反正切，结果为π<br>任意数和nan运算结果都为nan<br>nan不大于，不小于，也不等于任意数(包括自身)<br>inf除了自身及nan,正无穷大大于一切,负无穷大小于一切<br>​</p>
+<h2 id="nan和inf的判断"><a href="#nan和inf的判断" class="headerlink" title="nan和inf的判断"></a>nan和inf的判断</h2><p>c++可以使用<cmath>中的std::isinf(x)和std::isnan(x)来分别判断inf和nan。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.gnu.org/software/libc/manual/html_node/FP-Exceptions.html">http://www.gnu.org/software/libc/manual/html_node/FP-Exceptions.html</a><br><a target="_blank" rel="noopener" href="http://www.gnu.org/software/libc/manual/html_node/Infinity-and-NaN.html">http://www.gnu.org/software/libc/manual/html_node/Infinity-and-NaN.html</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/570669/checking-if-a-double-or-float-is-nan-in-c">https://stackoverflow.com/questions/570669/checking-if-a-double-or-float-is-nan-in-c</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4095337/how-to-check-for-inf-and-or-nan-in-a-double-variable">https://stackoverflow.com/questions/4095337/how-to-check-for-inf-and-or-nan-in-a-double-variable</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16691207/c-c-nan-constant-literal">https://stackoverflow.com/questions/16691207/c-c-nan-constant-literal</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/cpp-input-and-output.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/cpp-input-and-output.html" class="post-title-link" itemprop="url">c++输入输出</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2017-07-17 00:31:22 / Modified: 00:35:22" itemprop="dateCreated datePublished" datetime="2017-07-17T00:31:22+08:00">2017-07-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cpp/" itemprop="url" rel="index"><span itemprop="name">cpp</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/cpp-input-and-output.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/cpp-input-and-output.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="IO类"><a href="#IO类" class="headerlink" title="IO类"></a>IO类</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>c++中主要的IO类有三个:iostream,fstream,sstream.iostream定义了用于读写流的基本类型,fstream定义了读写命名文件的类型,sstream定义了读写内存string对象的类型.详细的继承对应关系如下图:<br><img src="//st.mcosx.cn/blog/img/201707/io.gif" alt="img"></p>
+<h3 id="条件状态-condition-state"><a href="#条件状态-condition-state" class="headerlink" title="条件状态(condition state)"></a>条件状态(condition state)</h3><p>strm::iostate    strm指某一种IO类型,iostate是一种机器相关的类型,提供了表达条件状态的完整功能<br>strm::badbit    流已崩溃<br>strm::failbit      指出一个IO操作失败了<br>strm::eofbit     指出流到达了文件结束<br>strm::goodbit    用来指出流未处于错误状态.此值保证为零<br>s.eof()    若流s的eofbit置位,则返回true<br>s.fail()    若流s的failbit或badbit置位,则返回true<br>s.bad()    若流s的badbit置位,则返回true<br>s.good()    若流s处于有效状态,则返回true<br>s.clear()    将流s中所有条件状态位复位,将流的状态设置为有效.返回void<br>s.clear(flags)    根据给定的flags标志位,将流s中对应条件状态位复位.flags的类型为strm::iostate.返回void<br>s.setstate(flags)    根据给定的flags标志位,将流s中对应条件状态位置位.flags的类型为strm::iostate.返回void<br>s.rdstate()    返回流s的当前条件状态,返回值类型为strm::iostate</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/post/cpp-input-and-output.html#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/record-terminal-sessions-tool-asciinema.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/record-terminal-sessions-tool-asciinema.html" class="post-title-link" itemprop="url">录制terminal工具asciinema</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-02 15:26:10" itemprop="dateCreated datePublished" datetime="2017-07-02T15:26:10+08:00">2017-07-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/record-terminal-sessions-tool-asciinema.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/record-terminal-sessions-tool-asciinema.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="//st.mcosx.cn/blog/img/201707/asciinema.png" alt="asciinema"></p>
+<p>Asciinema 是一个轻量并且非常高效的终端会话录制器。使用它可以录制、回放和分享 JSON 格式的终端会话记录。与一些桌面录制器，比如 Recordmydesktop、Simplescreenrecorder、Vokoscreen 或 Kazam 相比，Asciinema 最主要的优点是，它能够以通过 ASCII 文本以及 ANSI 转义码编码来录制所有的标准终端输入、输出和错误信息。</p>
+<ul>
+<li>通过命令行一键进行录制，不再需要打开各种 GUI 程序进行复杂操作。</li>
+<li>非常适合在 Github 上展示自己的程序，或者是录制教程等。</li>
+<li>还可以一键上传到 asciinema 官网，命名保存自己的操作，会生成短 URL 便于随时访问、分享。</li>
+<li>会自动识别系统和使用的 terminal 类型，比如bash。</li>
+<li>录制产生的文件是一个 asciinema 自己格式的 json 文件，可以本地播放，也可以用官方的<asciinema-player></asciinema-player>组件嵌入到自己的 web 博客中。</li>
+</ul>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://linux.cn/article-8519-1.html">如何在 Linux 中使用 Asciinema 进行录制和回放终端会话</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/ssh-proxycommand.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/ssh-proxycommand.html" class="post-title-link" itemprop="url">SSH通过跳板机登陆远程机器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-15 06:50:34" itemprop="dateCreated datePublished" datetime="2017-05-15T06:50:34+08:00">2017-05-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs/" itemprop="url" rel="index"><span itemprop="name">cs</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/ssh-proxycommand.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/ssh-proxycommand.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>公司登陆测试服务器使用的是先登陆跳板机,然后再登陆远程机器,使用secureCRT的rz,sz可以上传下载文件,但不是很方便.</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>在config文件中<br><code>vim ~/.ssh/config</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host *</span><br><span class="line">    ControlMaster auto</span><br><span class="line">    ControlPath ~/.ssh/%h-%p-%r</span><br><span class="line">    ControlPersist yes</span><br><span class="line"></span><br><span class="line">Host d111</span><br><span class="line">    ProxyCommand ssh -p 10099 userdev@000.00.00.10 nc 10.10.000.000 22</span><br></pre></td></tr></table></figure>
+
+<p>以后登陆远程机器时就可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh usename@d111</span><br></pre></td></tr></table></figure>
+
+<p>以后就可以使用scp直接上传文件或下载文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r ~/dir username@d111:/data/username/tmp</span><br><span class="line">scp username@d111:/data/username/tmp/dir/test.txt ./</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://serverfault.com/questions/37629/how-do-i-do-multihop-scp-transfers">https://serverfault.com/questions/37629/how-do-i-do-multihop-scp-transfers</a><br><a target="_blank" rel="noopener" href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/scp.html">scp 跨机远程拷贝</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/foreverich/blog/657075">ssh如何通过跳板机直接访问到后端服务器</a><br><a target="_blank" rel="noopener" href="http://mingxinglai.com/cn/2015/07/ssh-proxycommand/">SSH穿越跳板机：一条命令跨越跳板机直接登陆远程计算机</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20541129">Mac OS X 平台有哪些好用的 SSH 客户端？</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/38216180">scp如何跨过中转主机直接传输文件？</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/shiximianshi-zhishidian-zongjie.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/post/shiximianshi-zhishidian-zongjie.html" class="post-title-link" itemprop="url">实习面试知识点总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-01 10:25:39" itemprop="dateCreated datePublished" datetime="2017-05-01T10:25:39+08:00">2017-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs/" itemprop="url" rel="index"><span itemprop="name">cs</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/shiximianshi-zhishidian-zongjie.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/shiximianshi-zhishidian-zongjie.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="C-C-基础知识"><a href="#C-C-基础知识" class="headerlink" title="C/C++基础知识"></a>C/C++基础知识</h2><h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><table>
+<thead>
+<tr>
+<th>排序方式</th>
+<th align="center">平均时间复杂度</th>
+<th align="center">最坏时间复杂度</th>
+<th align="center">最好时间复杂度</th>
+<th align="center">空间复杂度</th>
+<th align="center">稳定性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>插入排序</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(n)</td>
+<td align="center">O(1)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td align="center">O(n<sup>1.3</sup>)</td>
+<td align="center">–</td>
+<td align="center">–</td>
+<td align="center">O(1)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td>冒泡排序</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(n)</td>
+<td align="center">O(1)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(log<sub>2</sub>n)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(n<sup>2</sup>)</td>
+<td align="center">O(1)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(1)</td>
+<td align="center">不稳定</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(nlog<sub>2</sub>n)</td>
+<td align="center">O(n)</td>
+<td align="center">稳定</td>
+</tr>
+<tr>
+<td>基数排序</td>
+<td align="center">O(d(n+r))</td>
+<td align="center">O(d(n+r))</td>
+<td align="center">O(d(n+r))</td>
+<td align="center">O(r)</td>
+<td align="center">稳定</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p> 希尔排序,快排，推排序问的比较多</p>
+</blockquote>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/hackbuteer1/article/details/7475622">浅谈C++多态性</a></p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><h3 id="怎么理解socket"><a href="#怎么理解socket" class="headerlink" title="怎么理解socket"></a>怎么理解socket</h3><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/dolphinX/p/3460545.html">简单理解Socket</a></p>
+<h3 id="select和epoll的区别"><a href="#select和epoll的区别" class="headerlink" title="select和epoll的区别"></a>select和epoll的区别</h3><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/Anker/p/3265058.html">select、poll、epoll之间的区别总结[整理]</a><br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000003063859">Linux IO模式及 select、poll、epoll详解</a><br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/dfd940e7fca2">聊聊IO多路复用之select、poll、epoll详解</a></p>
+<h3 id="tcp三次握手四次挥手"><a href="#tcp三次握手四次挥手" class="headerlink" title="tcp三次握手四次挥手"></a>tcp三次握手四次挥手</h3><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000006885287">TCP三次握手四次挥手</a></p>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p><a target="_blank" rel="noopener" href="https://my.oschina.net/xinxingegeya/blog/485650">TCP 滑动窗口（发送窗口和接收窗口）</a></p>
+<h3 id="进程之间通信"><a href="#进程之间通信" class="headerlink" title="进程之间通信"></a>进程之间通信</h3><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/gatieme/article/details/50908749">Linux进程间通信的几种方式总结–linux内核剖析（七）</a></p>
+<h3 id="线程之间通信"><a href="#线程之间通信" class="headerlink" title="线程之间通信"></a>线程之间通信</h3><p><a target="_blank" rel="noopener" href="http://www.doc00.com/doc/1001009wg">linux基础——linux线程间通信及同步机制总结</a></p>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="虚拟地址"><a href="#虚拟地址" class="headerlink" title="虚拟地址"></a>虚拟地址</h3><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/yusiguyuan/article/details/9664887">linux内存管理—虚拟地址、逻辑地址、线性地址、物理地址的区别（一）</a></p>
+<h3 id="中断分类"><a href="#中断分类" class="headerlink" title="中断分类"></a>中断分类</h3><p><a target="_blank" rel="noopener" href="http://www.crifan.com/files/doc/docbook/interrupt_related/release/htmls/interrput_type.html">中断的分类</a></p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="sql基本命令"><a href="#sql基本命令" class="headerlink" title="sql基本命令"></a>sql基本命令</h3><p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/sql/sql_syntax.asp">w3school</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mcosx</p>
+  <div class="site-description" itemprop="description">记录&&学习</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mcosx</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://l-blog-1.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+
+</body>
+</html>

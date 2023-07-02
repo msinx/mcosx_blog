@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.mcosx.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="关键词： 谷歌分析 “Google Analytics” “Measurement Protocol” 服务端使用谷歌分析总结一下这次折腾开始看到了imququ网站的beacon.html，通过这种方式来统计访问流量，感到挺好玩的，然后就查了一些东西，发现统计网站统计客户访问原理也差不多是这样，通过加载一个js文件来搜集浏览者信息，然后发送到自家服务器。这样有两个好处:  一是加快网页加载,谷歌统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谷歌分析优化加载和防止拦截">
+<meta property="og:url" content="https://blog.mcosx.cn/post/google-analytics-measurement-protocol-optimization-and-prevent-interception.html">
+<meta property="og:site_name" content="Mcosx&#39;s blog">
+<meta property="og:description" content="关键词： 谷歌分析 “Google Analytics” “Measurement Protocol” 服务端使用谷歌分析总结一下这次折腾开始看到了imququ网站的beacon.html，通过这种方式来统计访问流量，感到挺好玩的，然后就查了一些东西，发现统计网站统计客户访问原理也差不多是这样，通过加载一个js文件来搜集浏览者信息，然后发送到自家服务器。这样有两个好处:  一是加快网页加载,谷歌统">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-10-22T14:33:34.000Z">
+<meta property="article:modified_time" content="2016-10-22T14:33:34.000Z">
+<meta property="article:author" content="Mcosx">
+<meta property="article:tag" content="谷歌分析">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.mcosx.cn/post/google-analytics-measurement-protocol-optimization-and-prevent-interception.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>谷歌分析优化加载和防止拦截 | Mcosx's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71628927-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-71628927-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mcosx's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">36</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">41</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.mcosx.cn/post/google-analytics-measurement-protocol-optimization-and-prevent-interception.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mcosx">
+      <meta itemprop="description" content="记录&&学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mcosx's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          谷歌分析优化加载和防止拦截
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-22 22:33:34" itemprop="dateCreated datePublished" datetime="2016-10-22T22:33:34+08:00">2016-10-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/post/google-analytics-measurement-protocol-optimization-and-prevent-interception.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="post/google-analytics-measurement-protocol-optimization-and-prevent-interception.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关键词： <strong>谷歌分析</strong> <strong>“Google Analytics”</strong> <strong>“Measurement Protocol”</strong> <strong>服务端使用谷歌分析</strong><br>总结一下这次折腾<br>开始看到了<a target="_blank" rel="noopener" href="https://imququ.com/">imququ</a>网站的beacon.html，通过这种方式来统计访问流量，感到挺好玩的，然后就查了一些东西，发现统计网站统计客户访问原理也差不多是这样，通过加载一个js文件来搜集浏览者信息，然后发送到自家服务器。<br>这样有两个好处:</p>
+<ul>
+<li>一是加快网页加载,谷歌统计经常还是加载很慢，并且发送collect信息时也需要很长时间</li>
+<li>二是可以防止<code>uBlock Origin</code>等拦截,现在浏览网页基本都会用这东西了。<br>其实现原理为客户端统计信息=&gt;网站服务器=&gt;谷歌服务器。将用户客户端信息发送到自己的服务器也可以在服务器上自行处理统计，之所以能中转是因为谷歌服务器有提供<a target="_blank" rel="noopener" href="https://developers.google.com/analytics/devguides/collection/protocol/v1/reference">api</a>，可以通过参数<code>uip</code>来传递IP地址，其他的没有提供类似方法的就不能用了。</li>
+</ul>
+<span id="more"></span>
+<h2 id="折腾1"><a href="#折腾1" class="headerlink" title="折腾1"></a>折腾1</h2><p>开始我的想法也是向imququ这个网站一样，简单统计浏览者信息然后发送到服务器进行处理。<br>网页中附加以下js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params">e, n, o, f</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> t = e.<span class="property">screen</span>,</span><br><span class="line">    a = <span class="built_in">encodeURIComponent</span>,</span><br><span class="line">    r = [<span class="string">&quot;dt=&quot;</span> + <span class="title function_">a</span>(<span class="title function_">a</span>(<span class="variable language_">document</span>.<span class="property">title</span>)), <span class="string">&quot;dl=&quot;</span> + <span class="title function_">a</span>(f.<span class="property">href</span>), <span class="string">&quot;dr=&quot;</span> + <span class="title function_">a</span>(<span class="title function_">a</span>(<span class="variable language_">document</span>.<span class="property">referrer</span>)), <span class="string">&quot;ul=&quot;</span> + (o.<span class="property">language</span> || o.<span class="property">browserLanguage</span>).<span class="title function_">toLowerCase</span>(), <span class="string">&quot;sd=&quot;</span> + t.<span class="property">colorDepth</span> + <span class="string">&quot;-bit&quot;</span>, <span class="string">&quot;sr=&quot;</span> + t.<span class="property">width</span> + <span class="string">&quot;x&quot;</span> + t.<span class="property">height</span>, <span class="string">&quot;vp=&quot;</span> + e.<span class="property">innerWidth</span> + <span class="string">&quot;x&quot;</span> + e.<span class="property">innerHeight</span>, <span class="string">&quot;de=&quot;</span> + (n.<span class="property">characterSet</span> || n.<span class="property">charset</span>), <span class="string">&quot;ua=&quot;</span> + <span class="title function_">a</span>(o.<span class="property">userAgent</span>), <span class="string">&quot;_&quot;</span> + +<span class="keyword">new</span> <span class="title class_">Date</span>],</span><br><span class="line">    i = <span class="string">&quot;?&quot;</span> + r.<span class="title function_">join</span>(<span class="string">&quot;&amp;&quot;</span>);</span><br><span class="line">    img = <span class="keyword">new</span> <span class="title class_">Image</span>, img.<span class="property">src</span> = <span class="string">&quot;/stat&quot;</span> + i;</span><br><span class="line">&#125;)(<span class="variable language_">window</span>, <span class="variable language_">document</span>, navigator, location);</span><br></pre></td></tr></table></figure>
+<p>开始我是想用 <a target="_blank" rel="noopener" href="https://blog.alphatr.com/google-analytics-on-server.html">服务端使用 Google Analytics</a>这篇文章写的来折腾，不过不怎么会thinkjs，玩了半天不怎么会就放弃了，发送信息谷歌服务器老是识别不了。</p>
+<blockquote>
+<p>另备注下post测试工具:谷歌插件ARC(<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo?utm_source=chrome-app-launcher-info-dialog">Advanced REST client</a>)挺好用的，感觉比那个postman好用多了。另外也可以通过curl来测试。</p>
+</blockquote>
+<p>然后就用php作为服务端,初步就仅仅记录访问信息，没有转发谷歌服务器,nginx用try_files内部重定向下。<br>关键代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ip</span> = <span class="title function_ invoke__">getIp</span>();</span><br><span class="line"><span class="variable">$dt</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;dt&#x27;</span>];</span><br><span class="line"><span class="variable">$dr</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;dr&#x27;</span>];</span><br><span class="line"><span class="variable">$ul</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;ul&#x27;</span>];</span><br><span class="line"><span class="variable">$sd</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;sd&#x27;</span>];</span><br><span class="line"><span class="variable">$sr</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;sr&#x27;</span>];</span><br><span class="line"><span class="variable">$sv</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;sv&#x27;</span>];</span><br><span class="line"><span class="variable">$ti</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;ti&#x27;</span>];</span><br><span class="line"><span class="variable">$arr</span> = <span class="keyword">array</span>(<span class="variable">$ip</span>,<span class="variable">$dt</span>,<span class="variable">$dr</span>,<span class="variable">$ul</span>,<span class="variable">$sd</span>,<span class="variable">$sr</span>,<span class="variable">$sv</span>,<span class="variable">$ti</span>);</span><br><span class="line"><span class="variable">$arrjson</span> = <span class="title function_ invoke__">json_encode</span>(<span class="variable">$arr</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">file_put_contents</span>(<span class="string">&#x27;arr.json&#x27;</span>, <span class="string">&quot;$&#123;arrjson&#125;\n&quot;</span>, FILE_APPEND|LOCK_EX)) &#123;</span><br><span class="line">    <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Type: image/gif&#x27;</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7&#x27;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Type: text/plain&#x27;</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;false&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="折腾2"><a href="#折腾2" class="headerlink" title="折腾2"></a>折腾2</h2><p>网页中加如上统计代码<br>修改服务端php，增加发送功能。记得要将php设为非阻塞方式，避免等待时间过长。<br>关键代码如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$v</span> = <span class="number">1</span>;</span><br><span class="line"><span class="variable">$t</span> =<span class="string">&#x27;pageview&#x27;</span>;</span><br><span class="line"><span class="variable">$tid</span> = <span class="string">&#x27;UA-000000-0&#x27;</span>;</span><br><span class="line"><span class="variable">$z</span> = <span class="title function_ invoke__">mt_rand</span>();</span><br><span class="line"></span><br><span class="line"><span class="variable">$uip</span> = <span class="title function_ invoke__">getIp</span>();</span><br><span class="line"><span class="variable">$dt</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;dt&#x27;</span>];</span><br><span class="line"><span class="variable">$dl</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;dl&#x27;</span>];</span><br><span class="line"><span class="variable">$dr</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;dr&#x27;</span>];</span><br><span class="line"><span class="variable">$ul</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;ul&#x27;</span>];</span><br><span class="line"><span class="variable">$sd</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;sd&#x27;</span>];</span><br><span class="line"><span class="variable">$sr</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;sr&#x27;</span>];</span><br><span class="line"><span class="variable">$vp</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;vp&#x27;</span>];</span><br><span class="line"><span class="variable">$de</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;de&#x27;</span>];</span><br><span class="line"><span class="variable">$ua</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;ua&#x27;</span>];</span><br><span class="line"><span class="variable">$cid</span> = <span class="title function_ invoke__">clientId</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">send_post2</span>(<span class="string">&#x27;https://www.google-analytics.com/collect&#x27;</span>, <span class="variable">$post_data</span>);</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clientId</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$cid</span> = <span class="variable">$_COOKIE</span>[<span class="string">&quot;statcid&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable">$cid</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="variable">$cid</span> = <span class="title class_">Uuid</span>::<span class="title function_ invoke__">uuid4</span>()-&gt;<span class="title function_ invoke__">toString</span>();   <span class="comment">//i.e. 25769c6c-d34d-4bfe-ba98-e0ee856f3e7a</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnsatisfiedDependencyException <span class="variable">$e</span>) &#123;</span><br><span class="line">            <span class="comment">//TODO err log</span></span><br><span class="line">            <span class="variable">$cid</span> = <span class="title function_ invoke__">gen_uuid</span>();</span><br><span class="line">            <span class="comment">//echo &#x27;Caught exception: &#x27; . $e-&gt;getMessage() . &quot;\n&quot;;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;statcid&quot;</span>, <span class="variable">$cid</span>, <span class="title function_ invoke__">time</span>() + <span class="number">3600</span> * <span class="number">24</span> * <span class="number">365</span> * <span class="number">2</span>); <span class="comment">//两年有效期</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$cid</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//cid</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">gen_uuid</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">sprintf</span>( <span class="string">&#x27;%04x%04x-%04x-%04x-%04x-%04x%04x%04x&#x27;</span>,</span><br><span class="line">        // <span class="number">32</span> bits <span class="keyword">for</span> <span class="string">&quot;time_low&quot;</span></span><br><span class="line">        <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0xffff</span> ), <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0xffff</span> ),</span><br><span class="line"> </span><br><span class="line">        // <span class="number">16</span> bits <span class="keyword">for</span> <span class="string">&quot;time_mid&quot;</span></span><br><span class="line">        <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0xffff</span> ),</span><br><span class="line"> </span><br><span class="line">        // <span class="number">16</span> bits <span class="keyword">for</span> <span class="string">&quot;time_hi_and_version&quot;</span>,</span><br><span class="line">        // four most significant bits holds version number <span class="number">4</span></span><br><span class="line">        <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0x0fff</span> ) | <span class="number">0x4000</span>,</span><br><span class="line"> </span><br><span class="line">        // <span class="number">16</span> bits, <span class="number">8</span> bits <span class="keyword">for</span> <span class="string">&quot;clk_seq_hi_res&quot;</span>,</span><br><span class="line">        // <span class="number">8</span> bits <span class="keyword">for</span> <span class="string">&quot;clk_seq_low&quot;</span>,</span><br><span class="line">        // two most significant bits holds zero <span class="keyword">and</span> one <span class="keyword">for</span> variant DCE1.<span class="number">1</span></span><br><span class="line">        <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0x3fff</span> ) | <span class="number">0x8000</span>,</span><br><span class="line"> </span><br><span class="line">        // <span class="number">48</span> bits <span class="keyword">for</span> <span class="string">&quot;node&quot;</span></span><br><span class="line">        <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0xffff</span> ), <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0xffff</span> ), <span class="title function_ invoke__">mt_rand</span>( <span class="number">0</span>, <span class="number">0xffff</span> )</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">send_post</span>(<span class="params"><span class="variable">$url</span>, <span class="variable">$post_data</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$postdata</span> = <span class="title function_ invoke__">http_build_query</span>(<span class="variable">$post_data</span>);</span><br><span class="line">    <span class="variable">$options</span> = <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">&#x27;http&#x27;</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">&#x27;method&#x27;</span> =&gt; <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;header&#x27;</span> =&gt; <span class="string">&#x27;Content-type:application/x-www-form-urlencoded&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;content&#x27;</span> =&gt; <span class="variable">$postdata</span>,</span><br><span class="line">            <span class="string">&#x27;timeout&#x27;</span> =&gt; <span class="number">15</span> * <span class="number">60</span> <span class="comment">// 超时时间（单位:s）</span></span><br><span class="line">        )</span><br><span class="line">    );</span><br><span class="line">    <span class="variable">$context</span> = <span class="title function_ invoke__">stream_context_create</span>(<span class="variable">$options</span>);</span><br><span class="line">    <span class="variable">$result</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$url</span>, <span class="literal">false</span>, <span class="variable">$context</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">send_post2</span>(<span class="params"><span class="variable">$url</span>, <span class="variable">$post_data</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$postData</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">foreach</span>(<span class="variable">$post_data</span> <span class="keyword">as</span> <span class="variable">$k</span> =&gt; <span class="variable">$v</span>) &#123;</span><br><span class="line">        <span class="variable">$postData</span> .= <span class="variable">$k</span> . <span class="string">&#x27;=&#x27;</span> . <span class="variable">$v</span> . <span class="string">&#x27;&amp;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$postData</span> = <span class="title function_ invoke__">rtrim</span>(<span class="variable">$postData</span>, <span class="string">&#x27;&amp;&#x27;</span>);</span><br><span class="line">    <span class="variable">$ch</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_POST, <span class="title function_ invoke__">count</span>(<span class="variable">$postData</span>));</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_POSTFIELDS, <span class="variable">$postData</span>);</span><br><span class="line">    <span class="variable">$output</span> = <span class="title function_ invoke__">curl_exec</span>(<span class="variable">$ch</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$output</span> === <span class="literal">false</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Error Number:&quot;</span>.<span class="title function_ invoke__">curl_errno</span>(<span class="variable">$ch</span>).<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Error String:&quot;</span>.<span class="title function_ invoke__">curl_error</span>(<span class="variable">$ch</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_ invoke__">curl_close</span>(<span class="variable">$ch</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$output</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="折腾3"><a href="#折腾3" class="headerlink" title="折腾3"></a>折腾3</h2><p>在谷歌统计的后台看到好像以上方法都没有体现出会话时间等一些参数，想着还不如就用它的统计文件，然后中转一下。就打算直接修改<code>analytics.js</code>文件，将收集的信息发送到我的统计服务器。</p>
+<blockquote>
+<p>这里本来想着用nginx反向代理直接获取文件并替换其中信息的，用nginx的’ngx_http_sub_module’和<a target="_blank" rel="noopener" href="https://github.com/yaoweibin/ngx_http_substitutions_filter_module"><code>ngx_http_substitutions_filter_module</code></a>都试了不知道为什么不行(用多说的embed.js文件测试的)。</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Type: image/png&#x27;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$_SERVER</span>[<span class="string">&quot;QUERY_STRING&quot;</span>];</span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$a</span> . <span class="string">&quot;&amp;uip=&quot;</span> . <span class="title function_ invoke__">getIp</span>();</span><br><span class="line"><span class="title function_ invoke__">parse_str</span>(<span class="variable">$a</span>, <span class="variable">$aArray</span>);</span><br><span class="line"><span class="variable">$log</span>-&gt;<span class="title function_ invoke__">info</span>(<span class="string">&#x27;receive&#x27;</span>, <span class="variable">$aArray</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">send_post2</span>(<span class="string">&#x27;https://www.google-analytics.com/collect&#x27;</span>, <span class="variable">$a</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">send_post2</span>(<span class="params"><span class="variable">$url</span>, <span class="variable">$post_data</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$ch</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$url</span>);</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_POST, <span class="title function_ invoke__">count</span>(<span class="variable">$post_data</span>));</span><br><span class="line">    <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_POSTFIELDS, <span class="variable">$post_data</span>);</span><br><span class="line">    <span class="variable">$output</span> = <span class="title function_ invoke__">curl_exec</span>(<span class="variable">$ch</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$output</span> === <span class="literal">false</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Error Number:&quot;</span>.<span class="title function_ invoke__">curl_errno</span>(<span class="variable">$ch</span>).<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Error String:&quot;</span>.<span class="title function_ invoke__">curl_error</span>(<span class="variable">$ch</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_ invoke__">curl_close</span>(<span class="variable">$ch</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$output</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%B0%B7%E6%AD%8C%E5%88%86%E6%9E%90/" rel="tag"># 谷歌分析</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/leetcode-power-of-three.html" rel="prev" title="LeetCode:Power of Three">
+      <i class="fa fa-chevron-left"></i> LeetCode:Power of Three
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/ipblock-in-linux.html" rel="next" title="linux下自动禁用ip脚本">
+      linux下自动禁用ip脚本 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%98%E8%85%BE1"><span class="nav-number">1.</span> <span class="nav-text">折腾1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%98%E8%85%BE2"><span class="nav-number">2.</span> <span class="nav-text">折腾2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%98%E8%85%BE3"><span class="nav-number">3.</span> <span class="nav-text">折腾3</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mcosx</p>
+  <div class="site-description" itemprop="description">记录&&学习</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mcosx</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://l-blog-1.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.mcosx.cn/post/google-analytics-measurement-protocol-optimization-and-prevent-interception.html";
+    this.page.identifier = "post/google-analytics-measurement-protocol-optimization-and-prevent-interception.html";
+    this.page.title = "谷歌分析优化加载和防止拦截";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://l-blog-1.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
